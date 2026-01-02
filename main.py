@@ -15,12 +15,12 @@ pygame.display.set_caption("prime crash ver.3")
 async def main():
 
     # loading sounds
-    pygame.mixer.music.load("prime_crash\sound\\bgm1.ogg")
-    confirm_sound = pygame.mixer.Sound("prime_crash\sound\confirm.ogg")
-    cancel_sound = pygame.mixer.Sound("prime_crash\sound\cancel.ogg")
-    select_sound = pygame.mixer.Sound("prime_crash\sound\select.ogg")
-    impossible_sound = pygame.mixer.Sound("prime_crash\sound\impossible.ogg")
-    result_sound = pygame.mixer.Sound("prime_crash\sound\\result.ogg")
+    pygame.mixer.music.load("sound\\bgm1.ogg")
+    confirm_sound = pygame.mixer.Sound("sound\confirm.ogg")
+    cancel_sound = pygame.mixer.Sound("sound\cancel.ogg")
+    select_sound = pygame.mixer.Sound("sound\select.ogg")
+    impossible_sound = pygame.mixer.Sound("sound\impossible.ogg")
+    result_sound = pygame.mixer.Sound("sound\\result.ogg")
     pygame.mixer.music.play(-1)
 
     running = True
