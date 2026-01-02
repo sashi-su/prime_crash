@@ -15,14 +15,13 @@ pygame.display.set_caption("prime crash ver.3")
 async def main():
 
     # loading sounds
-    # mp.3のファイルは使えないため、後で追加する
-    """pygame.mixer.music.load("pygame\prime crash ver.3\sound\\bgm1.mp3")
-    confirm_sound = pygame.mixer.Sound("pygame\prime crash ver.3\sound\confirm.mp3")
-    cancel_sound = pygame.mixer.Sound("pygame\prime crash ver.3\sound\cancel.mp3")
-    select_sound = pygame.mixer.Sound("pygame\prime crash ver.3\sound\select.mp3")
-    impossible_sound = pygame.mixer.Sound("pygame\prime crash ver.3\sound\impossible.mp3")
-    result_sound = pygame.mixer.Sound("pygame\prime crash ver.3\sound\\result.mp3")"""
-    # pygame.mixer.music.play(-1)
+    pygame.mixer.music.load("prime_crash/sound/bgm1.ogg")
+    confirm_sound = pygame.mixer.Sound("prime_crash/sound/confirm.ogg")
+    cancel_sound = pygame.mixer.Sound("prime_crash/sound/cancel.ogg")
+    select_sound = pygame.mixer.Sound("prime_crash/sound/select.ogg")
+    impossible_sound = pygame.mixer.Sound("prime_crash/sound/impossible.ogg")
+    result_sound = pygame.mixer.Sound("prime_crash/sound/result.ogg")
+    pygame.mixer.music.play(-1)
 
     running = True
     score = 0
@@ -198,7 +197,7 @@ async def main():
                 if event.type == pygame.locals.MOUSEBUTTONUP:
                     if selected_mode:
                         screen_type = 2
-                        # confirm_sound.play()
+                        confirm_sound.play()
                 
                 # selecting the mode
                 elif event.type == pygame.locals.MOUSEMOTION:
@@ -212,7 +211,7 @@ async def main():
                         selected_mode = 0
 
                 if event.type == pygame.locals.MOUSEBUTTONDOWN and is_in(event.pos, undo_pos):
-                    # cancel_sound.play()
+                    cancel_sound.play()
                     running = False
             
 
@@ -221,16 +220,16 @@ async def main():
                     # change the level
                     if level_up:
                         if 0 < initial_level + level_up <= data[selected_mode]["level"]:
-                            # select_sound.play()
+                            select_sound.play()
                             initial_level += level_up
-                        # else:
-                            # impossible_sound.play()
+                        else:
+                            impossible_sound.play()
 
                     # playing a game
                     elif startflag:
-                        # confirm_sound.play()
+                        confirm_sound.play()
                         sleep(0.2)
-                        # pygame.mixer.music.stop()
+                        pygame.mixer.music.stop()
 
                         # ここでゲームを開始する
                         # あとで機能を追加する
@@ -272,7 +271,7 @@ async def main():
                         startflag = False
                 
                 if event.type == pygame.locals.MOUSEBUTTONDOWN and is_in(event.pos, undo_pos):
-                    # cancel_sound.play()
+                    cancel_sound.play()
                     screen_type = 1
                     selected_mode = 0
                     initial_level = 1
@@ -287,12 +286,11 @@ async def main():
                         okflag = False
 
                 if event.type == pygame.locals.MOUSEBUTTONDOWN and okflag:
-                    # confirm_sound.play()
+                    confirm_sound.play()
                     okflag = False
                     screen_type = 1
 
-                    # pygame.mixer.music.load("pygame\prime crash ver.3\sound\\bgm1.mp3")
-                    # pygame.mixer.music.play(-1)
+                    pygame.mixer.music.play(-1)
             
             
             if event.type == pygame.QUIT:
