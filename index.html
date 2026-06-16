@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>prime crash ver.3</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="portrait-warning">
+      <div>
+        <h1>prime crash</h1>
+        <p>Please play in landscape mode when playing this game on your mobile phone.</p>
+      </div>
+    </div>
+
+    <main id="app" class="app">
+      <section id="startScreen" class="screen stage start-screen">
+        <div class="start-panel">
+          <h1>Prime Crash</h1>
+          <button id="titleStartButton" class="title-start-button" type="button">START</button>
+        </div>
+      </section>
+
+      <section id="modeScreen" class="screen stage hidden">
+        <button class="close-button" type="button" data-action="back-to-start">X</button>
+        <div class="mode-grid">
+          <button class="mode-card" type="button" data-mode="1">
+            <span class="mode-title">Complex Mode</span>
+            <span>Best Score: <strong data-best-score="1">0</strong></span>
+            <span>Max Level: <strong data-max-level="1">1</strong></span>
+          </button>
+          <button class="mode-card" type="button" data-mode="2">
+            <span class="mode-title">Speed Mode</span>
+            <span>Best Score: <strong data-best-score="2">0</strong></span>
+            <span>Max Level: <strong data-max-level="2">1</strong></span>
+          </button>
+          <button class="mode-card" type="button" data-mode="3">
+            <span class="mode-title">Mixed Mode</span>
+            <span>Best Score: <strong data-best-score="3">0</strong></span>
+            <span>Max Level: <strong data-max-level="3">1</strong></span>
+          </button>
+        </div>
+        <button id="modeSelectButton" class="mode-select-button hidden" type="button">Select</button>
+        <div class="direction-box">
+          <p id="modeDirection1">Please select the mode you play.</p>
+          <p id="modeDirection2"></p>
+          <p id="modeDirection3"></p>
+        </div>
+      </section>
+
+      <section id="levelScreen" class="screen stage hidden">
+        <button class="close-button" type="button" data-action="back-to-mode">X</button>
+        <div class="level-panel">
+          <h1>You start with level:</h1>
+          <div class="level-picker">
+            <button class="triangle-button" type="button" data-level-step="-1" aria-label="Lower level"></button>
+            <output id="initialLevel">1</output>
+            <button class="triangle-button right" type="button" data-level-step="1" aria-label="Raise level"></button>
+          </div>
+          <button id="startButton" class="start-button" type="button">Start</button>
+        </div>
+        <div class="direction-box">
+          <p>Select the initial level.</p>
+          <p>If you don't begin with level 1,</p>
+          <p>the score will be saved but the final reached level will NOT.</p>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen game-screen hidden">
+        <canvas id="gameCanvas" aria-label="prime crash game"></canvas>
+      </section>
+
+      <section id="resultScreen" class="screen stage hidden">
+        <div class="result-layout">
+          <div>
+            <h1>Game Over!</h1>
+            <p class="result-line">Score: <strong id="resultScore">0</strong> points</p>
+            <p class="result-line">Level: <strong id="resultLevel">1</strong></p>
+          </div>
+          <div class="history-box">
+            <h2>History:</h2>
+            <ol id="historyList"></ol>
+          </div>
+        </div>
+        <button id="okButton" class="ok-button" type="button">OK</button>
+      </section>
+
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
