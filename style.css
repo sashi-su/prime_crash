@@ -54,6 +54,7 @@ button:active {
 .app {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   display: grid;
   place-items: center;
   background: radial-gradient(circle at 50% 0%, #263545 0%, var(--page-bg) 58%);
@@ -66,7 +67,9 @@ button:active {
 .stage {
   position: relative;
   width: min(100vw, calc(100vh * 16 / 9));
+  width: min(100vw, calc(100dvh * 16 / 9));
   height: min(100vh, calc(100vw * 9 / 16));
+  height: min(100dvh, calc(100vw * 9 / 16));
   aspect-ratio: 16 / 9;
   padding: 40px 50px 20px;
   box-shadow: var(--shadow);
@@ -89,6 +92,7 @@ button:active {
   line-height: 1;
   border-width: 3px;
   box-shadow: none;
+  z-index: 5;
 }
 
 .start-screen {
@@ -304,7 +308,9 @@ button:active {
 .game-screen {
   position: relative;
   width: min(100vw, calc(100vh * 16 / 9));
+  width: min(100vw, calc(100dvh * 16 / 9));
   height: min(100vh, calc(100vw * 9 / 16));
+  height: min(100dvh, calc(100vw * 9 / 16));
   aspect-ratio: 16 / 9;
 }
 
@@ -379,6 +385,7 @@ button:active {
   .game-screen {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     aspect-ratio: auto;
     box-shadow: none;
   }
@@ -390,6 +397,7 @@ button:active {
   .mode-grid {
     gap: 12px;
     height: 54%;
+    padding-right: 34px;
   }
 
   .mode-card {
@@ -397,11 +405,13 @@ button:active {
     padding: 12px;
     font-size: 16px;
     box-shadow: none;
+    min-width: 0;
   }
 
   .mode-title {
     margin-bottom: 16px;
     font-size: 22px;
+    white-space: normal;
   }
 
   .direction-box {
@@ -426,6 +436,9 @@ button:active {
 
   .close-button {
     border-width: 3px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
   }
 
   .level-panel {
@@ -507,6 +520,159 @@ button:active {
   }
 }
 
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 280px) {
+  button {
+    border-width: 3px;
+    border-radius: 10px;
+  }
+
+  .stage {
+    padding: 10px;
+  }
+
+  .start-panel {
+    gap: 28px;
+  }
+
+  .start-panel h1 {
+    font-size: clamp(40px, 10vw, 72px);
+  }
+
+  .title-start-button {
+    width: 230px;
+    height: 58px;
+    padding-bottom: 7px;
+    font-size: 34px;
+  }
+
+  .mode-grid {
+    gap: 8px;
+    height: 50%;
+    padding-right: 30px;
+  }
+
+  .mode-card {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .mode-title {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+
+  .direction-box {
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    height: 58px;
+    padding: 6px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.12;
+  }
+
+  .direction-box p {
+    margin-bottom: 1px;
+  }
+
+  .mode-select-button {
+    bottom: 72px;
+    width: 132px;
+    height: 30px;
+    font-size: 17px;
+  }
+
+  .close-button {
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+  }
+
+  .level-panel {
+    height: calc(100% - 66px);
+    gap: 4px;
+  }
+
+  .level-panel h1 {
+    font-size: 18px;
+  }
+
+  .level-picker {
+    width: 54%;
+    grid-template-columns: 38px 1fr 38px;
+  }
+
+  .level-picker output {
+    font-size: 78px;
+  }
+
+  .triangle-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .triangle-button::before {
+    border-top-width: 17px;
+    border-bottom-width: 17px;
+    border-right-width: 29px;
+  }
+
+  .triangle-button::after {
+    left: 5px;
+    border-top-width: 12px;
+    border-bottom-width: 12px;
+    border-right-width: 20px;
+  }
+
+  .triangle-button.right::before {
+    border-left-width: 29px;
+  }
+
+  .triangle-button.right::after {
+    right: 5px;
+    border-left-width: 20px;
+  }
+
+  .start-button,
+  .ok-button {
+    width: 190px;
+    height: 38px;
+    font-size: 24px;
+  }
+
+  .result-layout {
+    height: calc(100% - 44px);
+    gap: 10px;
+  }
+
+  .result-layout h1 {
+    margin-bottom: 8px;
+    font-size: 34px;
+  }
+
+  .result-line {
+    margin: 6px 0;
+    font-size: 22px;
+  }
+
+  .history-box h2 {
+    margin-bottom: 6px;
+    font-size: 20px;
+  }
+
+  .history-box ol {
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .ok-button {
+    bottom: 8px;
+  }
+}
+
 @media (max-width: 800px) and (orientation: portrait) {
   .app {
     display: none;
@@ -515,6 +681,7 @@ button:active {
   .portrait-warning {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     display: grid;
     place-items: center;
     padding: 24px;
