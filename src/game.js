@@ -175,8 +175,13 @@ export class PrimeCrashGame {
       const rightWidth = Math.min(Math.max(w * 0.27, 174), 230);
       const rightMargin = Math.max(8, Math.min(14, w * 0.012));
       const mainWidth = w - rightWidth - rightMargin;
-      const statusHeight = Math.max(34, Math.min(44, h * 0.11));
-      const controlsHeight = Math.max(40, Math.min(48, h * 0.12));
+      const compactHeight = h <= 280;
+      const statusHeight = compactHeight
+        ? Math.max(22, Math.min(28, h * 0.1))
+        : Math.max(28, Math.min(36, h * 0.095));
+      const controlsHeight = compactHeight
+        ? Math.max(24, Math.min(30, h * 0.105))
+        : Math.max(30, Math.min(38, h * 0.1));
       const gameArea = {
         x: 0,
         y: statusHeight,
@@ -209,8 +214,18 @@ export class PrimeCrashGame {
         circleRadius: Math.max(20, Math.min(60 * laneScale, laneHeight * 0.37)),
         squareHalf: Math.max(18, Math.min(52 * laneScale, laneHeight * 0.34)),
         selectorButtons,
-        deleteButton: { x: 14, y: h - controlsHeight + 10, width: 110, height: Math.max(28, controlsHeight - 20) },
-        undoButton: { x: mainWidth - 34, y: 6, width: 26, height: 26 },
+        deleteButton: {
+          x: 12,
+          y: h - controlsHeight + (compactHeight ? 5 : 7),
+          width: compactHeight ? 82 : 96,
+          height: Math.max(compactHeight ? 18 : 22, controlsHeight - (compactHeight ? 10 : 14)),
+        },
+        undoButton: {
+          x: mainWidth - (compactHeight ? 27 : 30),
+          y: compactHeight ? 4 : 5,
+          width: compactHeight ? 21 : 24,
+          height: compactHeight ? 21 : 24,
+        },
         controlsArea: { x: 0, y: h - controlsHeight, width: mainWidth, height: controlsHeight },
         statusArea: { x: 0, y: 0, width: mainWidth, height: statusHeight },
       };
@@ -795,15 +810,17 @@ export class PrimeCrashGame {
 
     ctx.fillStyle = this.deleteHover ? COLORS.active : COLORS.raised;
     const del = layout.deleteButton;
+    ctx.lineWidth = layout.mobile ? 1.5 : 2;
     roundedRect(ctx, del.x, del.y, del.width, del.height, layout.mobile ? 7 : 12, true, true);
     ctx.fillStyle = COLORS.ink;
-    drawText(ctx, "delete", del.x + del.width / 2, del.y + del.height / 2, layout.mobile ? 20 : 42);
+    drawText(ctx, "delete", del.x + del.width / 2, del.y + del.height / 2, layout.mobile ? Math.min(16, del.height * 0.58) : 42);
 
     const undo = layout.undoButton;
     ctx.fillStyle = COLORS.raised;
+    ctx.lineWidth = layout.mobile ? 1.5 : 2;
     roundedRect(ctx, undo.x, undo.y, undo.width, undo.height, layout.mobile ? 6 : 8, true, true);
     ctx.fillStyle = COLORS.ink;
-    drawText(ctx, "X", undo.x + undo.width / 2, undo.y + undo.height / 2, layout.mobile ? 24 : 34);
+    drawText(ctx, "X", undo.x + undo.width / 2, undo.y + undo.height / 2, layout.mobile ? Math.min(18, undo.height * 0.72) : 34);
 
   }
 
@@ -811,7 +828,7 @@ export class PrimeCrashGame {
     ctx.fillStyle = COLORS.ink;
     if (layout.mobile) {
       const text = `score: ${this.totalScore}   level: ${this.level}   lives: ${this.lives}   combo: ${this.combo}`;
-      drawLeftText(ctx, text, layout.statusArea.x + 12, layout.statusArea.height / 2, Math.max(17, layout.statusArea.height * 0.42));
+      drawLeftText(ctx, text, layout.statusArea.x + 8, layout.statusArea.height / 2, Math.max(12, layout.statusArea.height * 0.4));
       return;
     }
 
