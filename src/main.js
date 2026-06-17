@@ -22,7 +22,7 @@ const modeDirections = {
   ],
   2: [
     "As level increases, numbers flow faster.",
-    "This is for players who can calculate rapidly.",
+    "This is for players who can calculate quickly.",
     "",
   ],
   3: [
@@ -195,15 +195,7 @@ function bindEvents() {
 
 function unlockAudioOnce() {
   audio.unlock();
-  if (!audioStarted && !screens.game.classList.contains("hidden")) {
-    audioStarted = true;
-    return;
-  }
   audioStarted = true;
-  if (!screens.game.classList.contains("hidden")) {
-    return;
-  }
-  audio.playMusic("bgm1");
 }
 
 function showScreen(name) {
