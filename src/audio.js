@@ -22,6 +22,7 @@ export class AudioManager {
     this.music = null;
     this.currentMusicName = "";
     this.unlocked = false;
+    this.musicEnabled = true;
 
     for (const [name, path] of Object.entries(SOUND_PATHS)) {
       const audio = new Audio(path);
@@ -54,7 +55,7 @@ export class AudioManager {
   }
 
   playMusic(name) {
-    if (!this.unlocked || this.currentMusicName === name) {
+    if (!this.unlocked || !this.musicEnabled || this.currentMusicName === name) {
       return;
     }
     this.stopMusic();
@@ -76,5 +77,12 @@ export class AudioManager {
     }
     this.music = null;
     this.currentMusicName = "";
+  }
+
+  setMusicEnabled(enabled) {
+    this.musicEnabled = enabled;
+    if (!enabled) {
+      this.stopMusic();
+    }
   }
 }
