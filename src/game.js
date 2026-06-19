@@ -16,29 +16,29 @@ const MODE_NAMES = {
 };
 
 const COMPLEX_COOLDOWN = {
-  1: 50,
-  2: 65,
-  3: 80,
-  4: 95,
-  5: 105,
-  6: 115,
-  7: 125,
-  8: 135,
-  9: 145,
-  10: 150,
+  1: 200,
+  2: 200,
+  3: 150,
+  4: 150,
+  5: 150,
+  6: 150,
+  7: 150,
+  8: 160,
+  9: 170,
+  10: 180,
 };
 
 const SPEED_COOLDOWN = {
-  1: 100,
-  2: 80,
-  3: 70,
-  4: 60,
-  5: 50,
-  6: 40,
-  7: 40,
-  8: 30,
-  9: 25,
-  10: 20,
+  1: 200.00,
+  2: 160.00,
+  3: 140.00,
+  4: 120.00,
+  5: 103.33,
+  6: 86.67,
+  7: 70.00,
+  8: 53.33,
+  9: 36.67,
+  10: 20.00,
 };
 
 const COLORS = {
@@ -194,6 +194,12 @@ export class PrimeCrashGame {
       const buttonWidth = (rightWidth - gap * 3) / 2;
       const rowHeight = (h - gap * 5) / 4;
       const panelX = mainWidth;
+      const deleteButton = {
+        x: Math.max(12, mainWidth * (compactHeight ? 0.16 : 0.18)),
+        y: h - controlsHeight + (compactHeight ? 5 : 7),
+        width: compactHeight ? 82 : 96,
+        height: Math.max(compactHeight ? 18 : 22, controlsHeight - (compactHeight ? 10 : 14)),
+      };
       const selectorButtons = [
         { number: 2, label: "2", x: panelX + gap, y: gap, width: buttonWidth, height: rowHeight },
         { number: 3, label: "3", x: panelX + gap * 2 + buttonWidth, y: gap, width: buttonWidth, height: rowHeight },
@@ -214,11 +220,12 @@ export class PrimeCrashGame {
         circleRadius: Math.max(20, Math.min(60 * laneScale, laneHeight * 0.37)),
         squareHalf: Math.max(18, Math.min(52 * laneScale, laneHeight * 0.34)),
         selectorButtons,
-        deleteButton: {
-          x: 12,
-          y: h - controlsHeight + (compactHeight ? 5 : 7),
-          width: compactHeight ? 82 : 96,
-          height: Math.max(compactHeight ? 18 : 22, controlsHeight - (compactHeight ? 10 : 14)),
+        deleteButton,
+        deleteHitArea: {
+          x: deleteButton.x,
+          y: gameArea.y + gameArea.height,
+          width: deleteButton.width,
+          height: h - (gameArea.y + gameArea.height),
         },
         undoButton: {
           x: mainWidth - (compactHeight ? 27 : 30),
@@ -312,7 +319,8 @@ export class PrimeCrashGame {
     if (this.comboCount > 60) {
       this.combo = 0;
     }
-    if (this.roundScore >= 3000 && this.level < 10) {
+    // level up when player get every 4000 points
+    if (this.roundScore >= 4000 && this.level < 10) {
       this.level += 1;
       this.roundScore = 0;
     }
@@ -376,6 +384,7 @@ export class PrimeCrashGame {
     }
 
     if (state.phase === "right" && state.timer >= 1.5) {
+      this.comboCount = 0;
       this.grothendieck = null;
       this.audio.playMusic("bgm2");
     }
@@ -573,7 +582,7 @@ export class PrimeCrashGame {
       }
     }
 
-    if (contains(layout.deleteButton, point)) {
+    if (contains(layout.deleteHitArea ?? layout.deleteButton, point)) {
       this.clearSquares();
       return;
     }
@@ -601,7 +610,7 @@ export class PrimeCrashGame {
     } else if (!this.mouseShotReady) {
       this.lane = this.pointInGameArea(point, layout) ? this.laneAt(point, layout) : 0;
     }
-    this.deleteHover = contains(layout.deleteButton, point);
+    this.deleteHover = contains(layout.deleteHitArea ?? layout.deleteButton, point);
   }
 
   pointerUp(event) {
@@ -827,8 +836,8 @@ export class PrimeCrashGame {
   drawStatus(ctx, layout) {
     ctx.fillStyle = COLORS.ink;
     if (layout.mobile) {
-      const text = `score: ${this.totalScore}   level: ${this.level}   lives: ${this.lives}   combo: ${this.combo}`;
-      drawLeftText(ctx, text, layout.statusArea.x + 8, layout.statusArea.height / 2, Math.max(12, layout.statusArea.height * 0.4));
+      const text = `${MODE_NAMES[this.mode]}   score: ${this.totalScore}   level: ${this.level}   lives: ${this.lives}   combo: ${this.combo}`;
+      drawLeftText(ctx, text, layout.statusArea.x + 8, layout.statusArea.height / 2, Math.max(10, layout.statusArea.height * 0.34));
       return;
     }
 
