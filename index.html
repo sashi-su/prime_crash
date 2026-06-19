@@ -20,6 +20,13 @@
           <h1>Prime Crash</h1>
           <button id="titleStartButton" class="title-start-button" type="button">START</button>
         </div>
+        <div class="title-options">
+          <label class="music-toggle">
+            <input id="musicToggle" type="checkbox" checked>
+            <span>MUSIC</span>
+          </label>
+          <button id="resetButton" class="reset-save-button" type="button">RESET</button>
+        </div>
       </section>
 
       <section id="modeScreen" class="screen stage hidden">
@@ -85,6 +92,16 @@
         </div>
         <button id="okButton" class="ok-button" type="button">OK</button>
       </section>
+
+      <div id="resetDialog" class="reset-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="resetDialogTitle">
+        <div class="reset-dialog-panel">
+          <p id="resetDialogTitle">Delete save data?</p>
+          <div class="reset-dialog-actions">
+            <button id="resetYesButton" type="button">YES</button>
+            <button id="resetNoButton" type="button">NO</button>
+          </div>
+        </div>
+      </div>
 
     </main>
 
