@@ -25,6 +25,7 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  background: var(--surface);
 }
 
 button {
@@ -57,7 +58,7 @@ button:active {
   height: 100dvh;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 50% 0%, #263545 0%, var(--page-bg) 58%);
+  background: var(--surface);
 }
 
 .screen {
@@ -130,6 +131,41 @@ button:active {
 .title-start-button:focus-visible {
   background: #111923;
   color: var(--surface);
+}
+
+.title-options {
+  position: absolute;
+  right: 34px;
+  bottom: 26px;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.music-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-size: clamp(18px, 2.2vw, 34px);
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.music-toggle input {
+  width: 24px;
+  height: 24px;
+  accent-color: var(--ink);
+}
+
+.reset-save-button {
+  width: 118px;
+  height: 40px;
+  border-width: 3px;
+  border-radius: 10px;
+  box-shadow: none;
+  font-size: 22px;
+  font-weight: 650;
 }
 
 .mode-grid {
@@ -302,7 +338,12 @@ button:active {
 .ok-button {
   width: min(400px, 48vw);
   height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   font-size: clamp(34px, 4.2vw, 80px);
+  line-height: 1;
 }
 
 .game-screen {
@@ -342,6 +383,10 @@ button:active {
   font-size: clamp(40px, 5vw, 90px);
 }
 
+.result-layout > div:first-child {
+  padding-left: clamp(28px, 4vw, 64px);
+}
+
 .history-box h2 {
   margin: 0 0 20px;
   font-size: clamp(32px, 3.2vw, 60px);
@@ -378,6 +423,49 @@ button:active {
 
 .portrait-warning {
   display: none;
+}
+
+.reset-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 41, 51, 0.18);
+}
+
+.reset-dialog-panel {
+  width: min(520px, 86vw);
+  display: grid;
+  gap: 28px;
+  justify-items: center;
+  padding: 34px;
+  background: var(--surface);
+  border: 4px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.reset-dialog-panel p {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 42px);
+  text-align: center;
+}
+
+.reset-dialog-actions {
+  display: flex;
+  gap: 22px;
+}
+
+.reset-dialog-actions button {
+  width: 130px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 30px;
+  line-height: 1;
 }
 
 @media (max-width: 950px) and (orientation: landscape) {
@@ -450,12 +538,12 @@ button:active {
   }
 
   .level-picker {
-    width: 62%;
-    grid-template-columns: 60px 1fr 60px;
+    width: 48%;
+    grid-template-columns: 52px 1fr 52px;
   }
 
   .level-picker output {
-    font-size: 120px;
+    font-size: 104px;
   }
 
   .triangle-button {
@@ -507,6 +595,10 @@ button:active {
     font-size: 34px;
   }
 
+  .result-layout > div:first-child {
+    padding-left: 86px;
+  }
+
   .history-box h2 {
     font-size: 30px;
   }
@@ -543,6 +635,53 @@ button:active {
     height: 58px;
     padding-bottom: 7px;
     font-size: 34px;
+  }
+
+  .title-options {
+    right: 16px;
+    bottom: 12px;
+    gap: 5px;
+  }
+
+  .music-toggle {
+    gap: 6px;
+    font-size: 16px;
+  }
+
+  .music-toggle input {
+    width: 16px;
+    height: 16px;
+  }
+
+  .reset-save-button {
+    width: 74px;
+    height: 24px;
+    border-width: 2px;
+    border-radius: 7px;
+    font-size: 13px;
+  }
+
+  .reset-dialog-panel {
+    width: min(360px, 78vw);
+    gap: 14px;
+    padding: 18px;
+    border-width: 3px;
+    border-radius: 12px;
+  }
+
+  .reset-dialog-panel p {
+    font-size: 20px;
+  }
+
+  .reset-dialog-actions {
+    gap: 14px;
+  }
+
+  .reset-dialog-actions button {
+    width: 86px;
+    height: 34px;
+    border-width: 3px;
+    font-size: 18px;
   }
 
   .mode-grid {
@@ -601,12 +740,12 @@ button:active {
   }
 
   .level-picker {
-    width: 54%;
-    grid-template-columns: 38px 1fr 38px;
+    width: 43%;
+    grid-template-columns: 34px 1fr 34px;
   }
 
   .level-picker output {
-    font-size: 78px;
+    font-size: 64px;
   }
 
   .triangle-button {
@@ -656,6 +795,10 @@ button:active {
   .result-line {
     margin: 6px 0;
     font-size: 22px;
+  }
+
+  .result-layout > div:first-child {
+    padding-left: 66px;
   }
 
   .history-box h2 {
