@@ -55,6 +55,11 @@ const elements = {
   modeDirection2: document.querySelector("#modeDirection2"),
   modeDirection3: document.querySelector("#modeDirection3"),
   titleStartButton: document.querySelector("#titleStartButton"),
+  musicToggle: document.querySelector("#musicToggle"),
+  resetButton: document.querySelector("#resetButton"),
+  resetDialog: document.querySelector("#resetDialog"),
+  resetYesButton: document.querySelector("#resetYesButton"),
+  resetNoButton: document.querySelector("#resetNoButton"),
   modeSelectButton: document.querySelector("#modeSelectButton"),
   initialLevel: document.querySelector("#initialLevel"),
   startButton: document.querySelector("#startButton"),
@@ -89,6 +94,26 @@ function bindEvents() {
   window.addEventListener("pointerdown", unlockAudioOnce, { once: true });
   window.addEventListener("keydown", unlockAudioOnce, { once: true });
   window.addEventListener("resize", updateModeScreen);
+
+  elements.musicToggle.addEventListener("change", () => {
+    audio.setMusicEnabled(elements.musicToggle.checked);
+  });
+
+  elements.resetButton.addEventListener("click", () => {
+    audio.playSfx("select");
+    showResetDialog();
+  });
+
+  elements.resetYesButton.addEventListener("click", () => {
+    audio.playSfx("confirm");
+    resetSaveData();
+    hideResetDialog();
+  });
+
+  elements.resetNoButton.addEventListener("click", () => {
+    audio.playSfx("cancel");
+    hideResetDialog();
+  });
 
   for (const card of elements.modeCards) {
     const mode = Number(card.dataset.mode);
@@ -139,6 +164,7 @@ function bindEvents() {
     audio.playSfx("confirm");
     selectedMode = 0;
     hoveredMode = 0;
+    audio.setMusicEnabled(elements.musicToggle.checked);
     updateModeScreen();
     showScreen("mode");
     audio.playMusic("bgm1");
@@ -202,6 +228,9 @@ function showScreen(name) {
   for (const [screenName, screen] of Object.entries(screens)) {
     screen.classList.toggle("hidden", screenName !== name);
   }
+  if (name === "mode") {
+    requestAnimationFrame(updateModeSelectButtonPosition);
+  }
 }
 
 function updateModeScreen() {
@@ -214,11 +243,30 @@ function updateModeScreen() {
   }
 
   elements.modeSelectButton.classList.toggle("hidden", !isMobileLandscape() || !selectedMode);
+  updateModeSelectButtonPosition();
 
   const directions = modeDirections[activeMode] || modeDirections[0];
   elements.modeDirection1.textContent = directions[0];
   elements.modeDirection2.textContent = directions[1];
   elements.modeDirection3.textContent = directions[2];
+}
+
+function updateModeSelectButtonPosition() {
+  if (!isMobileLandscape() || !selectedMode || screens.mode.classList.contains("hidden")) {
+    elements.modeSelectButton.style.top = "";
+    elements.modeSelectButton.style.bottom = "";
+    return;
+  }
+
+  const modeGrid = screens.mode.querySelector(".mode-grid");
+  const directionBox = screens.mode.querySelector(".direction-box");
+  const screenRect = screens.mode.getBoundingClientRect();
+  const gridRect = modeGrid.getBoundingClientRect();
+  const directionRect = directionBox.getBoundingClientRect();
+  const buttonRect = elements.modeSelectButton.getBoundingClientRect();
+  const midpoint = (gridRect.bottom + directionRect.top) / 2 - screenRect.top;
+  elements.modeSelectButton.style.top = `${midpoint - buttonRect.height / 2}px`;
+  elements.modeSelectButton.style.bottom = "auto";
 }
 
 function continueToLevelScreen() {
@@ -235,6 +283,34 @@ function isMobileLandscape() {
 function updateLevelScreen() {
   elements.initialLevel.value = initialLevel;
   elements.initialLevel.textContent = initialLevel;
+}
+
+function showResetDialog() {
+  elements.resetDialog.classList.remove("hidden");
+  elements.resetNoButton.focus();
+}
+
+function hideResetDialog() {
+  elements.resetDialog.classList.add("hidden");
+  elements.resetButton.focus();
+}
+
+function resetSaveData() {
+  try {
+    localStorage.removeItem(SAVE_KEY);
+  } catch {
+    // Resetting is best-effort; in-memory data is still restored below.
+  }
+
+  const freshData = structuredClone(defaultData);
+  for (const mode of [1, 2, 3]) {
+    data[mode] = freshData[mode];
+  }
+
+  selectedMode = 0;
+  hoveredMode = 0;
+  initialLevel = 1;
+  updateModeScreen();
 }
 
 function handleGameEnd(result) {
